@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="icon" href="bg.jpeg">
+  <title>GPS Locator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      height:100vh;
+      display: grid;
+      place-content: center;
+      background-color: #fca607;
+      background-image: linear-gradient(315deg, #fc6107 0%, #80f1d0 74%);
+      font-family: "Ubuntu", sans-serif;
+      color: #fff;
+      margin: 0;
+    }
+
+    #container {
+      display: grid;
+      place-content: center;
+      padding: 20px;
+      border-radius: 10px;
+      background: linear-gradient(120deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url("bg.jpeg");
+      background-size:contain, cover;
+      height:30vh;
+      width:30vh;
+    }
+
+    button {
+      background-color: #1CAF10;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: lightseagreen;
+    }
+    
+    button:active {
+      background-color: white;
+      color:#111;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div id="locationDetails"></div>
+    <button id="getLocation">Send my location</button>
+  </div>
+  <script>
+const getLocationButton = document.getElementById("getLocation");
+const locationDetails = document.getElementById("locationDetails");
+
+getLocationButton.addEventListener("click", () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        sendDiscordMessage(latitude, longitude);
+      },
+      (error) => {
+        locationDetails.innerHTML = "<p>Error getting your location: " + error.message + "</p>";
+      }
+    );
+  } else {
+    locationDetails.innerHTML = "<p>Geolocation is not supported by this browser.</p>";
+  }
+});
+
+async function sendDiscordMessage(latitude, longitude) {
+  const webhookUrl = "YOUR_WEBHOOK_URL_HERE";
+
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+
+  const payload = {
+    content: `New Location info:\nLocation: ${mapLink}`,
+  };
+
+  try {
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      locationDetails.innerHTML += "<p>Location sent successfully!</p>";
+    } else {
+      locationDetails.innerHTML += "<p>Error sending your location.</p>";
+    }
+  } catch (error) {
+    locationDetails.innerHTML += "<p>Error sending your location.</p>";
+  }
+}
+  </script>
+</body>
+</html>
