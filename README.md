@@ -5,7 +5,7 @@ So, to make it easier for them. I simply send them the link to my website and te
 
 **Make a site
 
-**Add your Discord webhook in code
+**Add your Discord webhook in the HTML(JS) code
 
 **Send the link to the person you wish to visit
 
