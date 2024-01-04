@@ -10,22 +10,20 @@
       height:100vh;
       display: grid;
       place-content: center;
-      background-color: #fca607;
-      background-image: linear-gradient(315deg, #fc6107 0%, #80f1d0 74%);
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url("bg.jpeg");
+      background-size: contain, cover;
       font-family: "Ubuntu", sans-serif;
       color: #fff;
       margin: 0;
+      overflow: hidden;
     }
 
     #container {
       display: grid;
       place-content: center;
-      padding: 20px;
+      padding: 50px;
       border-radius: 10px;
-      background: linear-gradient(120deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url("bg.jpeg");
-      background-size:contain, cover;
-      height:30vh;
-      width:30vh;
+      background-color: rgba(0, 0, 0, 0.8);
     }
 
     button {
@@ -77,7 +75,7 @@ getLocationButton.addEventListener("click", () => {
 });
 
 async function sendDiscordMessage(latitude, longitude) {
-  const webhookUrl = "YOUR_WEBHOOK_URL_HERE";
+  const webhookUrl = "INSERT_YOUR_WEBHOOK_URL_HERE";
 
   const mapLink = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
 
